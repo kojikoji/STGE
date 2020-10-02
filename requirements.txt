@@ -1,0 +1,7 @@
+numpy
+scipy
+pickle
+pandas
+progressbar2
+numba
+h5py
