@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
     setuptools.setup(
-        name="setup-kojikoji",
+        name="stge-kojikoji",
         version="0.0.1",
         author="kojikoji",
         author_email="tiisaishima@gmail.com",

@@ -3,10 +3,11 @@ from numpy import linalg as LA
 import scipy.io
 #import progressbar
 import numba
-from fix_axis import fix_axis
+from stge.fix_axis import fix_axis
 import pickle
 import numba
 import progressbar
+import pandas as pd
 
 def load_obj(fname, dir_name='data/base_data/objs/'):
     with open(dir_name + fname, mode='rb') as f:
@@ -47,15 +48,14 @@ fix_angle = np.array([1.19380521, -0.06283185, -0.39273019])
 
 
 class cell_tracker:
-    def __init__(self, point_num=2, base_hpf=7.0, std_z=600):
+    def __init__(self, point_num=2, base_hpf=6.0, std_z=0, init_frame=0, end_frame=420):
         self.fidx_vec = np.array([], dtype=int)
         self.sample_idx_vec_dict = dict()
         self.ancestor_dict = dict()
         self.point_num = point_num
-        self.init_frame = 100
-        self.end_frame = 800
+        self.init_frame = init_frame
+        self.end_frame = end_frame
         self.base_hpf = base_hpf
-        self.time_point_check_add(base_hpf)
         self.std_z = std_z
 
     def hpf2frame(self, hpf):
@@ -84,6 +84,17 @@ class cell_tracker:
     def register_mat_file(self, mat_file_name,
                           init_minitue=100, end_minute=1440):
         self.all_frame = scipy.io.loadmat(mat_file_name)['embryo'].flatten()
+        self.init_minitue = init_minitue
+        self.end_minitue = end_minute
+        self.term = end_minute - init_minitue
+
+    def register_df(self, df_file_name,
+                    init_minitue=240, end_minute=1080):
+        df = pd.read_csv(df_file_name)
+        t_vec = np.sort(np.unique(df['t']))
+        self.all_frame = [
+            np.array(df.loc[df['t'] == t, ['x', 'y', 'z']])
+            for t in t_vec]
         self.init_minitue = init_minitue
         self.end_minitue = end_minute
         self.term = end_minute - init_minitue
