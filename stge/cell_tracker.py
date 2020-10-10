@@ -95,6 +95,7 @@ class cell_tracker:
         self.all_frame = [
             np.array(df.loc[df['t'] == t, ['x', 'y', 'z']])
             for t in t_vec]
+        self.end_frame = len(self.all_frame) - 1
         self.init_minitue = init_minitue
         self.end_minitue = end_minute
         self.term = end_minute - init_minitue
