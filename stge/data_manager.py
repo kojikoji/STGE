@@ -137,10 +137,6 @@ class data_manager:
         self.ct.__init__()
         self.point_num = 1000
         self.ct.point_num = self.point_num
-        self.ct.ancestor_dict = load_obj(
-            "f100_f700_n1000_lineage_ancestor_dict")
-        self.ct.sample_idx_vec_dict = load_obj(
-            "f100_f700_n1000_lineage_sample_idx_vec_dict")
         self.ct.fidx_vec = np.array(
             [fidx for fidx in self.ct.sample_idx_vec_dict.keys()])
 
